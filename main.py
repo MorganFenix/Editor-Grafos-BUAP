@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
 
-from backend.models.graph import Graph, GraphState, Node, Edge
+from backend.models.graph import Graph, GraphState, Node, Edge, AlgorithmStep
 
 app = FastAPI(
     title="API Editor de Grafos BUAP",
@@ -108,6 +108,36 @@ def update_from_matrix(req: MatrixRequest):
         return {"message": "Grafo actualizado exitosamente desde la matriz.", "state": graph_instance.export_state()}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/graph/algorithm/kruskal", response_model=List[AlgorithmStep])
+def run_kruskal():
+    """Ejecuta el algoritmo de Kruskal en el grafo actual."""
+    return graph_instance.kruskal()
+
+
+@app.get("/graph/algorithm/prim", response_model=List[AlgorithmStep])
+def run_prim(start_node: int):
+    """Ejecuta el algoritmo de Prim iniciando en start_node."""
+    try:
+        return graph_instance.prim(start_node)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/graph/algorithm/dijkstra", response_model=List[AlgorithmStep])
+def run_dijkstra(start_node: int):
+    """Ejecuta el algoritmo de Dijkstra iniciando en start_node."""
+    try:
+        return graph_instance.dijkstra(start_node)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/graph/algorithm/floyd-warshall", response_model=List[AlgorithmStep])
+def run_floyd_warshall():
+    """Ejecuta el algoritmo de Floyd-Warshall en el grafo actual."""
+    return graph_instance.floyd_warshall()
 
 
 if __name__ == "__main__":

@@ -161,4 +161,20 @@ class Graph:
             nodes=list(self.nodes.values()),
             edges=edge_list
         )
+
+    def kruskal(self) -> List[AlgorithmStep]:
+        from backend.algorithms import kruskal as _kruskal
+        return _kruskal(self)
+
+    def prim(self, start_node: int) -> List[AlgorithmStep]:
+        from backend.algorithms import prim as _prim
+        return _prim(self, start_node)
+
+    def dijkstra(self, start_node: int) -> List[AlgorithmStep]:
+        from backend.algorithms import dijkstra as _dijkstra
+        return _dijkstra(self, start_node)
+
+    def floyd_warshall(self) -> List[AlgorithmStep]:
+        from backend.algorithms import floyd_warshall as _floyd_warshall
+        return _floyd_warshall(self)
         
