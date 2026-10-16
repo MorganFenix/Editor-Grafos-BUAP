@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List, Optional
 
@@ -19,6 +21,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/static", StaticFiles(directory="frontend"), name="static")
+
+# Ruta principal que sirve el archivo HTML
+@app.get("/")
+def read_root():
+    return FileResponse("frontend/index.html")
 
 # Instancia global del grafo en memoria
 graph_instance = Graph(is_directed=False, is_weighted=True)

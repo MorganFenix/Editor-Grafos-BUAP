@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GraphLab Studio - Educational Graph Theory & Algorithm Editor</title>
+<!-- Google Fonts: Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "outline-variant": "#3c4a42",
+            "primary-fixed": "#6ffbbe",
+            "on-error-container": "#ffdad6",
+            "on-secondary": "#003640",
+            "surface-dim": "#0f131c",
+            "on-secondary-container": "#00424e",
+            "secondary-container": "#03b5d3",
+            "on-background": "#dfe2ef",
+            "inverse-on-surface": "#2c303a",
+            "secondary-fixed-dim": "#4cd7f6",
+            "secondary-fixed": "#acedff",
+            "on-secondary-fixed": "#001f26",
+            "tertiary": "#c0c1ff",
+            "surface-container-highest": "#31353f",
+            "on-tertiary": "#1000a9",
+            "on-surface-variant": "#bbcabf",
+            "on-surface": "#dfe2ef",
+            "surface": "#0f131c",
+            "on-primary-fixed-variant": "#005236",
+            "surface-tint": "#4edea3",
+            "surface-container": "#1c1f29",
+            "on-primary-fixed": "#002113",
+            "tertiary-container": "#9699ff",
+            "primary-fixed-dim": "#4edea3",
+            "inverse-surface": "#dfe2ef",
+            "tertiary-fixed": "#e1e0ff",
+            "surface-variant": "#31353f",
+            "on-tertiary-fixed-variant": "#2f2ebe",
+            "on-tertiary-container": "#1d17b2",
+            "error-container": "#93000a",
+            "outline": "#86948a",
+            "secondary": "#4cd7f6",
+            "on-error": "#690005",
+            "surface-container-low": "#181b25",
+            "on-primary": "#003824",
+            "tertiary-fixed-dim": "#c0c1ff",
+            "on-tertiary-fixed": "#07006c",
+            "background": "#0f131c",
+            "surface-container-high": "#262a34",
+            "primary-container": "#10b981",
+            "primary": "#4edea3",
+            "on-secondary-fixed-variant": "#004e5c",
+            "surface-container-lowest": "#0a0e17",
+            "surface-bright": "#353943",
+            "on-primary-container": "#00422b",
+            "inverse-primary": "#006c49",
+            "error": "#ffb4ab"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-sm": ["Inter"],
+            "label-sm": ["JetBrains Mono"],
+            "headline-sm": ["Inter"],
+            "label-md": ["JetBrains Mono"],
+            "headline-md": ["Inter"],
+            "body-md": ["Inter"],
+            "label-lg": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "body-lg": ["15px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "label-md": ["11px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "label-lg": ["13px", { "lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .bg-dot-matrix {
+      background-color: #090d16;
+      background-image: radial-gradient(#1e293b 1.25px, transparent 1.25px);
+      background-size: 24px 24px;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0e17;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #262a34;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3c4a42;
+    }
+    .matrix-input {
+      width: 100% !important;
+      height: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      background-color: #181b25 !important;
+      text-align: center !important;
+      color: #4edea3 !important;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px !important;
+      font-weight: 600;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    .matrix-input:focus {
+      border-color: #4edea3 !important;
+      background-color: #262a34 !important;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased overflow-hidden h-screen flex flex-col select-none">
+
+<!-- ================= TOP APPLICATION BAR ================= -->
+<header class="flex justify-between items-center w-full px-space-md h-11 border-b border-outline-variant bg-surface-container-low z-30 flex-shrink-0">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="polyline">polyline</span>
+<span class="text-headline-sm font-headline-sm font-semibold tracking-tight text-primary">GraphLab Studio</span>
+</div>
+<span class="text-label-sm font-label-sm bg-surface-container-high text-primary-fixed border border-outline-variant px-space-xs py-0.5 rounded">BUAP FCC Edition</span>
+</div>
+
+<div class="flex items-center gap-space-sm">
+<!-- Directed / Undirected Toggle -->
+<div class="flex items-center bg-surface-container-lowest border border-outline-variant rounded p-0.5 text-label-sm font-label-sm">
+<button id="btnToggleDirected" class="px-2 py-0.5 text-on-surface-variant hover:text-on-surface transition-colors">Dirigido</button>
+<button id="btnToggleUndirected" class="px-2 py-0.5 rounded bg-surface-container-high text-primary font-medium transition-colors">No Dirigido</button>
+</div>
+<div class="h-4 w-px bg-outline-variant mx-1"></div>
+<!-- Quick Action Icons -->
+<div class="flex items-center gap-1">
+<button id="btnRunTopBar" class="w-7 h-7 flex items-center justify-center rounded hover:bg-surface-variant text-primary transition-colors" title="Ejecutar Algoritmo">
+<span class="material-symbols-outlined text-[18px]" data-icon="play_arrow">play_arrow</span>
+</button>
+<button id="btnResetTopBar" class="w-7 h-7 flex items-center justify-center rounded hover:bg-surface-variant text-on-surface-variant hover:text-on-surface transition-colors" title="Reiniciar Estado">
+<span class="material-symbols-outlined text-[18px]" data-icon="restart_alt">restart_alt</span>
+</button>
+</div>
+</div>
+</header>
+
+<!-- ================= MAIN WORKSPACE BODY ================= -->
+<div class="flex flex-1 overflow-hidden">
+
+<!-- ================= LEFT DOCKED TOOLBAR ================= -->
+<aside class="flex flex-col justify-between items-center w-12 py-space-sm border-r border-outline-variant bg-surface-container-lowest z-20 flex-shrink-0">
+<div class="flex flex-col items-center gap-1.5 w-full">
+<button id="toolAddNode" class="tool-btn w-9 h-9 flex items-center justify-center rounded bg-surface-container-high text-primary border-l-2 border-primary transition-all duration-150" title="Añadir Nodo (+N)">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_circle">add_circle</span>
+</button>
+<button id="toolAddEdge" class="tool-btn w-9 h-9 flex items-center justify-center rounded text-on-surface-variant hover:bg-surface-container transition-all duration-150" title="Añadir Arista (+E)">
+<span class="material-symbols-outlined text-[20px]" data-icon="timeline">timeline</span>
+</button>
+<button id="toolSelect" class="tool-btn w-9 h-9 flex items-center justify-center rounded text-on-surface-variant hover:bg-surface-container transition-all duration-150" title="Seleccionar / Mover">
+<span class="material-symbols-outlined text-[20px]" data-icon="near_me">near_me</span>
+</button>
+<button id="toolDelete" class="tool-btn w-9 h-9 flex items-center justify-center rounded text-on-surface-variant hover:bg-surface-container hover:text-error transition-all duration-150" title="Eliminar Elemento">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+<button id="toolClear" class="tool-btn w-9 h-9 flex items-center justify-center rounded text-on-surface-variant hover:bg-surface-container hover:text-error transition-all duration-150" title="Limpiar Lienzo">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete_sweep">delete_sweep</span>
+</button>
+</div>
+</aside>
+
+<!-- ================= 2-COLUMN SPLIT WORKSPACE ================= -->
+<div class="flex-1 flex overflow-hidden">
+
+<!-- ================= LEFT PANEL: MAIN GRAPH CANVAS ================= -->
+<section class="w-full lg:w-[62%] flex flex-col border-r border-outline-variant bg-surface-dim relative overflow-hidden">
+<div class="h-9 px-3 bg-surface-container-low border-b border-outline-variant flex items-center justify-between z-10">
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline font-semibold tracking-wider">MODO ACTIVO</span>
+<div class="flex items-center bg-surface-container-lowest border border-outline-variant rounded px-1.5 py-0.5">
+<span class="inline-block w-2 h-2 rounded-full bg-primary mr-1.5 animate-pulse"></span>
+<span id="activeModeLabel" class="text-label-sm font-label-sm text-primary font-medium">NODO</span>
+</div>
+</div>
+<div class="flex items-center gap-3 text-label-sm font-label-sm text-on-surface-variant">
+<span>Nodos: <strong id="lblNodeCount" class="text-primary font-bold">0</strong>/20</span>
+<span>Aristas: <strong id="lblEdgeCount" class="text-secondary font-bold">0</strong></span>
+</div>
+</div>
+
+<div id="canvasParent" class="flex-1 relative bg-dot-matrix overflow-hidden cursor-crosshair">
+<canvas id="graphCanvas" class="w-full h-full block relative z-10"></canvas>
+
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-none z-20">
+<div id="statusPill" class="pointer-events-auto bg-surface-container/90 backdrop-blur-md border border-outline-variant rounded px-3 py-1.5 text-label-sm font-label-sm text-on-surface flex items-center gap-2 shadow-lg">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span id="statusMessage">Haz clic en el lienzo para agregar nodos (máximo 20).</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ================= RIGHT COLUMN: MATRIX & ALGORITHMS ================= -->
+<section class="w-full lg:w-[38%] flex flex-col bg-surface-container-lowest h-full overflow-hidden">
+
+<div class="h-[46%] border-b border-outline-variant flex flex-col bg-surface-container-low">
+<div class="px-3 py-2 border-b border-outline-variant flex items-center justify-between bg-surface-container">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px]" data-icon="grid_on">grid_on</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold text-xs tracking-wide">Matriz de Adyacencia</span>
+<span class="text-label-sm font-label-sm bg-surface-container-high text-secondary border border-outline-variant px-1.5 rounded">20 × 20</span>
+</div>
+</div>
+
+<div id="matrixContainer" class="flex-1 overflow-auto bg-surface-container-lowest p-2">
+<table id="adjacencyMatrix" class="border-collapse text-center select-none w-full">
+<thead>
+<tr id="matrixHeader"></tr>
+</thead>
+<tbody id="matrixBody"></tbody>
+</table>
+</div>
+</div>
+
+<div class="h-[54%] flex flex-col bg-surface-container-low overflow-hidden">
+<div class="flex items-center border-b border-outline-variant bg-surface-container overflow-x-auto">
+<button id="algoDijkstra" class="algo-tab px-3 py-2 border-b-2 border-primary text-primary font-medium text-label-md font-label-md whitespace-nowrap bg-surface-container-low">Dijkstra</button>
+<button id="algoKruskal" class="algo-tab px-3 py-2 text-on-surface-variant hover:text-on-surface font-medium text-label-md font-label-md whitespace-nowrap">Kruskal MST</button>
+<button id="algoPrim" class="algo-tab px-3 py-2 text-on-surface-variant hover:text-on-surface font-medium text-label-md font-label-md whitespace-nowrap">Prim MST</button>
+<button id="algoFloyd" class="algo-tab px-3 py-2 text-on-surface-variant hover:text-on-surface font-medium text-label-md font-label-md whitespace-nowrap">Floyd-Warshall</button>
+</div>
+
+<div class="px-3 py-2 border-b border-outline-variant bg-surface-container-lowest flex items-center justify-between gap-2 flex-wrap">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5">
+<span class="text-label-sm font-label-sm text-on-surface-variant font-bold">Origen:</span>
+<select id="selectStartNode" class="bg-surface-container-high text-primary font-bold border border-outline-variant rounded px-2 py-1 text-label-md font-label-md h-7 focus:ring-1 focus:ring-primary"></select>
+</div>
+</div>
+<button id="btnExecuteAlgo" class="px-4 py-1.5 bg-primary text-on-primary font-bold text-label-sm rounded hover:bg-primary-fixed-dim transition-colors shadow">Ejecutar</button>
+</div>
+
+<div class="px-3 py-2 border-b border-outline-variant bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center bg-surface-container-lowest border border-outline-variant rounded divide-x divide-outline-variant">
+<button id="btnStepPrev" class="w-8 h-8 flex items-center justify-center hover:bg-surface-container text-on-surface-variant hover:text-on-surface" title="Paso Anterior">
+<span class="material-symbols-outlined text-[18px]" data-icon="fast_rewind">fast_rewind</span>
+</button>
+<button id="btnPlay" class="w-9 h-8 flex items-center justify-center bg-primary text-on-primary hover:bg-primary-fixed-dim font-bold" title="Reproducir">
+<span class="material-symbols-outlined text-[20px]" data-icon="play_arrow">play_arrow</span>
+</button>
+<button id="btnStepNext" class="w-8 h-8 flex items-center justify-center hover:bg-surface-container text-on-surface-variant hover:text-on-surface" title="Paso Siguiente">
+<span class="material-symbols-outlined text-[18px]" data-icon="fast_forward">fast_forward</span>
+</button>
+<button id="btnReset" class="w-8 h-8 flex items-center justify-center hover:bg-surface-container text-on-surface-variant hover:text-on-surface" title="Reiniciar">
+<span class="material-symbols-outlined text-[18px]" data-icon="replay">replay</span>
+</button>
+</div>
+</div>
+
+<div id="executionLog" class="flex-1 overflow-y-auto bg-surface-container-lowest p-2.5 font-label-sm text-label-sm space-y-1 border-t border-outline-variant/30">
+<div class="text-outline-variant">// Consola lista para ejecutar traza algorítmica...</div>
+</div>
+
+</div>
+</section>
+</div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
